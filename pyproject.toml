@@ -26,6 +26,7 @@ serverapp = "my_first_federated_learning.server_app:app"
 clientapp = "my_first_federated_learning.client_app:app"
 
 [tool.flwr.app.config]
+strategy = "FedMedian"
 num-server-rounds = 3
 fraction-fit = 0.5
 local-epochs = 1
@@ -35,3 +36,6 @@ default = "local-simulation"
 
 [tool.flwr.federations.local-simulation]
 options.num-supernodes = 10
+
+[tool.flower.logging]
+enable_wandb = true

@@ -1,0 +1,39 @@
+{
+  "os":  "macOS-10.16-x86_64-i386-64bit",
+  "python":  "CPython 3.10.18",
+  "startedAt":  "2025-06-14T10:52:53.921891Z",
+  "args":  [
+    "--app",
+    ".",
+    "--num-supernodes",
+    "10"
+  ],
+  "program":  "/Users/sandeshbhattarai/miniconda3/envs/flower-env/bin/flower-simulation",
+  "git":  {
+    "remote":  "https://github.com/git07Sandesh/Secure-Federated-Learning.git",
+    "commit":  "93b69230eb7aafe26365a328a04b4fbd565e05b6"
+  },
+  "email":  "sandesh1122bhattarai@gmail.com",
+  "root":  "/Users/sandeshbhattarai/Desktop/flwr/secure_federated_learning",
+  "host":  "Sandeshs-MacBook-Pro.local",
+  "executable":  "/Users/sandeshbhattarai/miniconda3/envs/flower-env/bin/python3.10",
+  "cpu_count":  6,
+  "cpu_count_logical":  12,
+  "disk":  {
+    "/":  {
+      "total":  "499828957184",
+      "used":  "335720710144"
+    },
+    "/System/Volumes/Data":  {
+      "total":  "499828957184",
+      "used":  "335720710144"
+    }
+  },
+  "memory":  {
+    "total":  "17179869184"
+  },
+  "cpu":  {
+    "count":  6,
+    "countLogical":  12
+  }
+}

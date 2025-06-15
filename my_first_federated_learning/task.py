@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from flwr_datasets import FederatedDataset
 
-from flwr_datasets.partitioner import IidPartitioner
+from flwr_datasets.partitioner import DirichletPartitioner 
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose, Normalize, ToTensor
 
@@ -52,7 +52,10 @@ def load_data(partition_id: int, num_partitions: int, batch_size: int = 32):
 
     # Initialize dataset and partitioners only once
     if fds is None:
-        partitioner = IidPartitioner(num_partitions=num_partitions)
+        partitioner = DirichletPartitioner(num_partitions=num_partitions,
+                                           alpha = 0.4,
+                                           min_size = 100,
+                                           seed = 42)
         fds = FederatedDataset(
             dataset="uoft-cs/cifar10",  # HuggingFace-compatible dataset
             partitioners={"train": partitioner}
@@ -66,8 +69,8 @@ def load_data(partition_id: int, num_partitions: int, batch_size: int = 32):
 
     # Define image transformations for CIFAR-10
     transforms = Compose([
-        ToTensor(),
-        Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Standard CIFAR-10 normalization
+        ToTensor(), # Convert PIL images to PyTorch tensors and scales it down to [0, 1] range by dividing the pixel values by 255
+        Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Standard CIFAR-10 normalization(We passed tuple for mean and standard deviation and there are 3 values because CIFAR-10 image have 3 channels RGB)
     ])
 
     # Apply transformations
@@ -75,7 +78,8 @@ def load_data(partition_id: int, num_partitions: int, batch_size: int = 32):
         batch["img"] = [transforms(img) for img in batch["img"]]
         return batch
 
-    partition_train_test = partition_train_test.with_transform(apply_transforms)
+    partition_train_test = partition_train_test.with_transform(apply_transforms) # Instead of applying transformation all at once, only apply when needed and for specific batch.
+    
 
     # Create PyTorch DataLoaders
     trainloader = DataLoader(partition_train_test["train"], batch_size=batch_size, shuffle=True)
